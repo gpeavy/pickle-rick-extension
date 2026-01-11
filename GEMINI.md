@@ -25,7 +25,11 @@ The extension exposes the following commands via TOML definitions in `commands/`
 - **`/pickle`** (`commands/pickle.toml`):
   - **Purpose:** Initiates the iterative development loop.
   - **Implementation:** Maps to `scripts/setup.sh`.
-  - **Usage:** `/pickle <prompt> [--max-iterations N] [--completion-promise 'text']`
+  - **Usage:** `/pickle <prompt> [--max-iterations N] [--completion-promise 'text'] [--resume [PATH]]`
+
+- **`/pickle-prd`** (`commands/pickle-prd.toml`):
+  - **Purpose:** Interactively drafts a PRD and initializes a session.
+  - **Usage:** `/pickle-prd <prompt>`
   
 - **`/eat-pickle`** (`commands/eat-pickle.toml`):
   - **Purpose:** Cancels/Stops the active loop.

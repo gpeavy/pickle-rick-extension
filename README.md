@@ -1,5 +1,8 @@
 # Pickle Rick Extension 🥒
 
+> [!WARNING]
+> **USE AT YOUR OWN RISK.** This is a fun side project and experimental demonstration. It involves autonomous code modification and shell execution. While safety guardrails are in place, the agent may behave unexpectedly and consume a significant number of tokens.
+
 ![Pickle Rick](./resources/pickle-rick.png)
 
 > "I'm Pickle Rick! The ultimate coding agent."
@@ -50,7 +53,7 @@ This creates a self-referential feedback loop where:
 - The agent autonomously improves by reading its own past work in files.
 
 ### ⚠️ Warning
-**This loop will continue until the task is complete, the `max-iterations` (default: 3) is reached, the `max-time` (default: 60m) expires, or a `completion-promise` is fulfilled.**
+**This loop will continue until the task is complete, the `max-iterations` (default: 3) is reached, the `max-time` (default: 60m) expires, or a `completion-promise` is fulfilled.** (Note: Individual workers have a 20m timeout).
 
 ## ✅ When to Use Pickle Rick
 
@@ -70,6 +73,7 @@ This creates a self-referential feedback loop where:
 
 - **Gemini CLI**: Version `> 0.24.0-preview.0`
 - **Agent Skills**: Must be enabled in your Gemini configuration.
+- **Python 3.x**: Required for worker orchestration and management.
 
 ## 🛠️ Usage
 
@@ -81,21 +85,36 @@ To initiate the iterative development loop:
 
 **Options:**
 - `--max-iterations <N>`: Stop after N iterations (default: 3).
-- `--max-time <M>`: Stop after M minutes (default: 60).
+- `--max-time <M>`: Stop after M minutes (default: 60). (Worker timeout default: 20m).
+- `--worker-timeout <S>`: Timeout for individual workers in seconds (default: 1200).
 - `--name <SLUG>`: Custom name for the session directory.
 - `--completion-promise "TEXT"`: Only stop when the agent outputs `<promise>TEXT</promise>`.
+- `--resume [PATH]`: Resume an existing session. If PATH is omitted, uses the latest session.
 
 ### Stop the Loop
-To manually cancel/stop the active loop:
-```bash
-/eat-pickle
-```
+- `/eat-pickle`: Stop/Cancel the current loop.
+- `/pickle-worker`: (Internal) Used by the manager to spawn worker instances.
 
 ### Help
 To view extension help:
 ```bash
 /help-pickle
 ```
+
+### 📋 Phase-Specific Commands
+
+#### 1. Interactive PRD (Recommended)
+Draft a PRD interactively before starting the implementation loop. This initializes a session and primes the agent.
+```bash
+/pickle-prd "I want to add a dark mode toggle"
+```
+
+#### 2. Resume a Session
+If a session was interrupted or started via `/pickle-prd`, resume it using:
+```bash
+/pickle --resume
+```
+*Note: This resumes the session pointed to by `current_session_path`.*
 
 ### ⚙️ Important Configuration (includeDirectories)
 To ensure Pickle Rick can track its thoughts, manage Linear tickets, and persist session state, you **must** add the extension's data directory to your Gemini `includeDirectories` configuration (usually in your `.geminirc` or settings).
@@ -183,10 +202,7 @@ To prevent the agent from accidentally pushing code or performing destructive gi
 
 *   **Rick Notifications**: Real-time OS notifications (or Rick shouting at you) when a task is complete or fails.
 *   **Jerry Mode Mitigation**: Ability for Rick to pause the loop and ask for human help if he gets stuck in a simulation (infinite error loop).
-*   **Session Resumption**: Native support for resuming old sessions by ID.
 
 ---
 
 > "I turned myself into a CLI tool, Morty! I'm Pickle Riiiiick! Wubba Lubba Dub-Dub! 🥒"
-
-

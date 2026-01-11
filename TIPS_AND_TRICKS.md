@@ -48,7 +48,14 @@ tail -f ~/.gemini/extensions/pickle-rick/current_session_path | xargs -I {} tail
 If Pickle Rick gets stuck in a loop, use `/eat-pickle` to kill the process. You can then manually edit the `state.json` in the session folder to skip a step or change the `current_ticket`.
 
 ### 3. Resuming a Session
-Pickle Rick doesn't currently have a native "resume" command, but you can point the `current_session_path` back to an old session directory to force the agent to see that context in its next run.
+Pickle Rick has native support for resuming sessions. This is useful if a loop was interrupted or if you initialized the session via `/pickle-prd`.
+```bash
+/pickle --resume
+```
+You can also resume a specific session by providing the path:
+```bash
+/pickle --resume ~/.gemini/extensions/pickle-rick/sessions/YYYY-MM-DD-slug
+```
 
 ## 🚀 God Mode Best Practices
 
