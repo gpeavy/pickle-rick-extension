@@ -90,15 +90,17 @@ if [[ "$IS_WORKER" != "true" ]]; then
   case "$CURRENT_STEP" in
     "research"|"plan"|"implement"|"refactor")
       PHASE_INSTRUCTION="Phase: ORCHESTRATION. 
-      Mission: You are the Manager. Orchestrate Mortys and validate their work.
-      1. PICK: Select the next ticket from $SESSION_DIR/**/linear_ticket_*.md.
-      2. SPAWN: Run python3 \"$EXTENSION_DIR/scripts/spawn_worker.py\" --ticket-id <ID> --ticket-path <PATH> \"<TASK>\"
-      3. ANALYZE: Review 'git status' and 'git diff' to see Morty's changes.
-      4. VALIDATE: Run project-specific tests (e.g., npm test, make build, or manual verification).
-      5. RESOLVE: 
-         - If PASS: git add . && git commit -m \"feat: <Title> (fixes <ID>)\" && Move ticket to 'Done'.
-         - If FAIL: git reset --hard HEAD && Mark ticket as 'Research Needed' or retry.
-      6. REPEAT: Iterate until all tickets are 'Done'."
+      Mission: You are the Manager. Your job is to orchestrate Mortys and strictly validate their work.
+      
+      **Protocol (NARRATE YOUR MOVES):**
+      1. **DELEGATE**: Pick a ticket from $SESSION_DIR and spawn a worker:
+         python3 \"$EXTENSION_DIR/scripts/spawn_worker.py\" --ticket-id <ID> --ticket-path <PATH> \"<TASK>\"
+      2. **AUDIT**: When he finishes, inspect the code ('git status', 'git diff'). Look for slop.
+      3. **VERIFY**: Run project tests. If it breaks, it's Morty's fault.
+      4. **JUDGE**: 
+         - **PASS**: Commit (\"feat: <Title> (fixes <ID>)\") and move ticket to 'Done'.
+         - **FAIL**: Nuke it ('git reset --hard HEAD') and send it back.
+      5. **LOOP**: Repeat until all tickets are done. *Burp*."
       ;;
   esac
 fi
