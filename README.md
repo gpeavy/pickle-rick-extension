@@ -3,7 +3,7 @@
 ## 📥 Installation
 
 ```bash
-gemini extensions install https://github.com/galz10/pickle-rick-extension
+gemini extensions install https://github.com/gpeavy/pickle-rick-extension
 ```
 
 ## 📋 Prerequisites
